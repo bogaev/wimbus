@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package pbf_db;
+
+message ColorRBG{
+	int32 red = 1;
+	int32 green = 2;
+	int32 blue = 3;
+	double alpha = 4;
+}
+
+message ColorString{
+	string str = 1;
+}
+
+message Color{
+	ColorRBG rgb = 1;
+	ColorString str = 2;
+}

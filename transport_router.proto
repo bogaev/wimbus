@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package pbf_db;
+
+message RoutingSettings {
+	int32 bus_wait_time = 1;
+	double bus_velocity = 2;
+}
+
+message PrevEdge {
+	uint64 value = 1;
+}
+
+message RouteInternalData {
+	double weight = 1;
+	PrevEdge prev_edge = 2; 
+}
+
+message OptionalRouteInternalData {
+	RouteInternalData route_internal_data = 1; 
+}
+
+message EdgeInternalData {
+	repeated OptionalRouteInternalData edge = 1;
+}
+
+message VertexPair {
+	uint64 vertex1 = 1;
+	uint64 vertex2 = 2;
+}
+
+message WaitItem {
+    string stop_name = 1;
+    int32 time = 2;
+};
+
+message BusItem {
+    string bus_name = 1;
+    int32 span_count = 2;
+    double time = 3;
+};
+
+message RouteItem {
+  oneof item_oneof {
+    WaitItem wait = 1;
+    BusItem bus = 2;
+  }
+}
+
+message Router {
+	RoutingSettings settings = 1;
+	repeated EdgeInternalData edges = 2;
+	map<uint64, VertexPair> stop_to_vertex_id = 3;
+	map<uint64, RouteItem> edge_id_to_item = 4;
+}
